@@ -9,6 +9,5 @@ namespace Iterates.Bwm.Domain.Entities;
 public class Wholesaler : EntityBase
 {
     public string? Name { get; set; }
-    public virtual ICollection<Beer>? Beers { get; set; }
-    public virtual ICollection<BeerStock>? BeerStocks { get; set; }
+    public List<WholesalerStock>? WholesalerStocks { get; set; }
 }

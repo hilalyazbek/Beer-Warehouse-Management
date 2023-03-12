@@ -9,5 +9,5 @@ namespace Iterates.Bwm.Domain.Entities;
 public class Brewer : EntityBase
 {
     public string? Name { get; set; }
-    public virtual ICollection<Beer>? Beers { get; set; }
+    public List<Beer>? Beers { get; set; }
 }
