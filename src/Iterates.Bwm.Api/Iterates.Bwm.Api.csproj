@@ -7,8 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="WatchDog.NET" Version="1.4.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Iterates.Bwm.Application\Iterates.Bwm.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MappingProfiles\" />
   </ItemGroup>
 
 </Project>
