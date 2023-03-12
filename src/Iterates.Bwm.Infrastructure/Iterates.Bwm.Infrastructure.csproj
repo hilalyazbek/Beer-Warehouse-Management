@@ -19,4 +19,10 @@
     <ProjectReference Include="..\Iterates.Bwm.Domain\Iterates.Bwm.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
 </Project>
