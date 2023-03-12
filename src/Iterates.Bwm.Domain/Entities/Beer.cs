@@ -14,5 +14,6 @@ public class Beer : EntityBase
     public decimal Price { get; set; }
     public string? AlcoholContent { get; set; }
     public Guid BrewerId { get; set; }
+    public Brewer? Brewer { get; set; }
     public List<WholesalerStock>? WholesalerStocks { get; set; }
 }

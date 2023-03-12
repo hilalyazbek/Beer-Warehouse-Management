@@ -13,6 +13,10 @@
   <ItemGroup>
     <Folder Include="Implementations\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Services\" />
+  </ItemGroup>
 </Project>
