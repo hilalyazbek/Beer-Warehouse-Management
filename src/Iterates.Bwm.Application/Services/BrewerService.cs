@@ -29,6 +29,20 @@ public class BrewerService : IBrewerService
         return addedBeer;
     }
 
+    public async Task<Brewer> GetBrewerAsync(Guid id)
+    {
+        var brewer = await _brewerRepository.GetByIdAsync(id);
+
+        return brewer;
+    }
+
+    public async Task<Beer> GetBeerAsync(Guid id)
+    {
+        var beer = await _beerRepository.GetByIdAsync(id);
+
+        return beer;
+    }
+
     public async Task<bool> DeleteBeerAsync(Beer beer)
     {
         var beerToDelete = await _beerRepository.GetByIdAsync(beer.Id);
@@ -70,14 +84,5 @@ public class BrewerService : IBrewerService
         }
     }
 
-    public async Task<Brewer> GetBrewerAsync(Guid id)
-    {
-        var brewer = await _brewerRepository.GetByIdAsync(id);
-        if(brewer is null)
-        {
-            return null;
-        }
-
-        return brewer;
-    }
+    
 }

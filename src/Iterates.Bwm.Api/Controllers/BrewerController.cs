@@ -34,9 +34,9 @@ public class BrewerController : Controller
             return NotFound($"Brewer with ID {beer.BrewerId} not found");
         }
 
-        var beerToBeAdded = _mapper.Map<Beer>(beer);
+        var beerToAdd = _mapper.Map<Beer>(beer);
 
-        var addedBeer = await _brewerService.AddBeerAsync(beerToBeAdded);
+        var addedBeer = await _brewerService.AddBeerAsync(beerToAdd);
 
         return Ok(addedBeer);
     }
@@ -44,11 +44,16 @@ public class BrewerController : Controller
     [HttpDelete("beers/{id}")]
     public async Task<IActionResult> DeleteBeerAsync(Guid id)
     {
-        var beerToDelete = new Beer { Id = id };
+        var beerToDelete = await _brewerService.GetBeerAsync(id);
+        if (beerToDelete == null)
+        {
+            return NotFound($"Beer with ID {id} not found");
+        }
+
         var deleted = await _brewerService.DeleteBeerAsync(beerToDelete);
         if (deleted)
         {
-            return NoContent();
+            return Ok($"Beer with ID {id} deleted");
         }
         else
         {
