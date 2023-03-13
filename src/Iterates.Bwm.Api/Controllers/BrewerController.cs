@@ -25,6 +25,18 @@ public class BrewerController : Controller
         _mapper = mapper;
     }
 
+    [HttpGet("beers/{brewerId}")]
+    public async Task<ActionResult<IEnumerable<Beer>>> GetBeersByBrewerId(Guid brewerId)
+    {
+        var beers = await _brewerService.GetBeersByBrewerIdAsync(brewerId);
+        if (beers == null)
+        {
+            return NotFound($"No beers found for brewer {brewerId}");
+        }
+
+        return Ok(beers);
+    }
+
     [HttpPost("beers")]
     public async Task<ActionResult<Beer>> AddBeerAsync(AddBeerDTO beer)
     {

@@ -45,14 +45,15 @@ public class BrewerService : IBrewerService
 
     public async Task<bool> DeleteBeerAsync(Beer beer)
     {
-        var beerToDelete = await _beerRepository.GetByIdAsync(beer.Id);
-        if (beerToDelete == null)
-        {
-            throw new ArgumentException($"Beer with ID {beer.Id} not found");
-        }
-
-        await _beerRepository.RemoveAsync(beerToDelete);
+        await _beerRepository.RemoveAsync(beer);
         return true;
+    }
+
+    public async Task<IEnumerable<Beer>> GetBeersByBrewerIdAsync(Guid id)
+    {
+        var beers = await _beerRepository.FindAsync(itm => itm.BrewerId == id);
+
+        return beers;
     }
 
     public async Task<WholesalerStock> AddSaleToWholesalerAsync(WholesalerStock wholesalerStock)
@@ -84,5 +85,5 @@ public class BrewerService : IBrewerService
         }
     }
 
-    
+
 }
