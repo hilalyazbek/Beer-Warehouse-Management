@@ -23,6 +23,7 @@
     <None Remove="Repositories\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Iterates.Bwm.Api.DTOs;
 using Iterates.Bwm.Application.Interfaces;
 using Iterates.Bwm.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -15,16 +17,27 @@ namespace Iterates.Bwm.Api.Controllers;
 public class BrewerController : Controller
 {
     private readonly IBrewerService _brewerService;
+    private readonly IMapper _mapper;
 
-    public BrewerController(IBrewerService brewerService)
+    public BrewerController(IBrewerService brewerService, IMapper mapper)
     {
         _brewerService = brewerService;
+        _mapper = mapper;
     }
 
     [HttpPost("beers")]
-    public async Task<ActionResult<Beer>> AddBeerAsync(Beer beer)
+    public async Task<ActionResult<Beer>> AddBeerAsync(AddBeerDTO beer)
     {
-        var addedBeer = await _brewerService.AddBeerAsync(beer);
+        var brewer = await _brewerService.GetBrewerAsync(beer.BrewerId);
+        if (brewer == null)
+        {
+            return NotFound($"Brewer with ID {beer.BrewerId} not found");
+        }
+
+        var beerToBeAdded = _mapper.Map<Beer>(beer);
+
+        var addedBeer = await _brewerService.AddBeerAsync(beerToBeAdded);
+
         return Ok(addedBeer);
     }
 

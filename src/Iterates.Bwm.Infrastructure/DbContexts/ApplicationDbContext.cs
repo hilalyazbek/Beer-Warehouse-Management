@@ -15,8 +15,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<Wholesaler> Wholesalers { get; set; }
     public DbSet<WholesalerStock> WholesalerStocks { get; set; }
 
+    public ApplicationDbContext() : base()
+    {
+    }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : base(options)
+        : base(options)
     {
 
     }
@@ -32,10 +36,10 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Brewer>()
             .HasMany(b => b.Beers);
 
-        modelBuilder.Entity<Beer>()
-            .HasMany(b => b.WholesalerStocks)
-            .WithOne(wb => wb.Beer)
-            .HasForeignKey(wb => wb.BeerId);
+        //modelBuilder.Entity<Beer>()
+        //    .HasMany(b => b.WholesalerStocks)
+        //    .WithOne(wb => wb.Beer)
+        //    .HasForeignKey(wb => wb.BeerId);
 
         modelBuilder.Entity<Wholesaler>()
             .HasMany(w => w.WholesalerStocks)

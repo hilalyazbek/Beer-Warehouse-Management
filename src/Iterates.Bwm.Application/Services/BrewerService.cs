@@ -25,13 +25,6 @@ public class BrewerService : IBrewerService
 
     public async Task<Beer> AddBeerAsync(Beer beer)
     {
-        var brewer = await _brewerRepository.GetByIdAsync(beer.BrewerId);
-        if (brewer == null)
-        {
-            throw new ArgumentException($"Brewer with ID {beer.BrewerId} not found");
-        }
-
-        beer.Brewer = brewer;
         var addedBeer = await _beerRepository.AddAsync(beer);
         return addedBeer;
     }
@@ -75,5 +68,16 @@ public class BrewerService : IBrewerService
             var addedSale = await _wholesalerStockRepository.AddAsync(wholesalerStock);
             return addedSale;
         }
+    }
+
+    public async Task<Brewer> GetBrewerAsync(Guid id)
+    {
+        var brewer = await _brewerRepository.GetByIdAsync(id);
+        if(brewer is null)
+        {
+            return null;
+        }
+
+        return brewer;
     }
 }
