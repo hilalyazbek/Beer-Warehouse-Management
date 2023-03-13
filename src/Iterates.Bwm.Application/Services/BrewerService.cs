@@ -11,16 +11,19 @@ public class BrewerService : IBrewerService
     private readonly IGenericRepository<Beer> _beerRepository;
     private readonly IGenericRepository<Wholesaler> _wholesalerRepository;
     private readonly IGenericRepository<WholesalerStock> _wholesalerStockRepository;
+    private readonly IGenericRepository<Sale> _saleRepository;
 
     public BrewerService(IGenericRepository<Brewer> brewerRepository,
                           IGenericRepository<Beer> beerRepository,
                           IGenericRepository<Wholesaler> wholesalerRepository,
-                          IGenericRepository<WholesalerStock> wholesalerStockRepository)
+                          IGenericRepository<WholesalerStock> wholesalerStockRepository,
+                          IGenericRepository<Sale> saleRepository)
     {
         _brewerRepository = brewerRepository;
         _beerRepository = beerRepository;
         _wholesalerRepository = wholesalerRepository;
         _wholesalerStockRepository = wholesalerStockRepository;
+        _saleRepository = saleRepository;
     }
 
     public async Task<Beer> AddBeerAsync(Beer beer)
@@ -56,34 +59,32 @@ public class BrewerService : IBrewerService
         return beers;
     }
 
-    public async Task<WholesalerStock> AddSaleToWholesalerAsync(WholesalerStock wholesalerStock)
+    public async Task<Sale> AddSaleToWholesalerAsync(Sale sale)
     {
-        var wholesaler = await _wholesalerRepository.GetByIdAsync(wholesalerStock.WholesalerId);
-        if (wholesaler == null)
-        {
-            throw new ArgumentException($"Wholesaler with ID {wholesalerStock.WholesalerId} not found");
-        }
+        var wholesaler = sale.Wholesaler;
 
-        var beer = await _beerRepository.GetByIdAsync(wholesalerStock.BeerId);
-        if (beer == null)
-        {
-            throw new ArgumentException($"Beer with ID {wholesalerStock.BeerId} not found");
-        }
+        var addedSale = await _saleRepository.AddAsync(sale);
 
-        if (wholesaler.WholesalerStocks.Any(s => s.BeerId == wholesalerStock.BeerId))
+        if (wholesaler.WholesalerStocks.Any(s => s.BeerId == sale.BeerId))
         {
-            var existingStock = wholesaler.WholesalerStocks.First(s => s.BeerId == wholesalerStock.BeerId);
-            existingStock.Stock += wholesalerStock.Stock;
+            var existingStock = wholesaler.WholesalerStocks.First(s => s.BeerId == sale.BeerId);
+            existingStock.Stock += wholesaler.WholesalerStocks.Count;
             await _wholesalerStockRepository.UpdateAsync(existingStock);
-            return existingStock;
         }
         else
         {
-            wholesaler.WholesalerStocks.Add(wholesalerStock);
-            var addedSale = await _wholesalerStockRepository.AddAsync(wholesalerStock);
-            return addedSale;
+            var stockToBeAdded = new WholesalerStock()
+            {
+                Beer = sale.Beer,
+                BeerId = sale.BeerId,
+                Stock = sale.Stock,
+                Wholesaler = wholesaler,
+                WholesalerId = sale.WholesalerId
+            };
+
+            await _wholesalerStockRepository.AddAsync(stockToBeAdded);
         }
+
+        return addedSale;
     }
-
-
 }

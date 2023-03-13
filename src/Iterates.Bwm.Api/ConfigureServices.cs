@@ -8,6 +8,7 @@ public static class ConfigureServices
     public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         services.AddScoped<IBrewerService, BrewerService>();
+        services.AddScoped<IWholesalerService, WholesalerService>();
 
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

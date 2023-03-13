@@ -10,6 +10,6 @@ public interface IBrewerService
     Task<Beer> GetBeerAsync(Guid id);
     Task<Beer> AddBeerAsync(Beer beer);
     Task<bool> DeleteBeerAsync(Beer beer);
-    Task<WholesalerStock> AddSaleToWholesalerAsync(WholesalerStock wholesalerStock);
+    Task<Sale> AddSaleToWholesalerAsync(Sale sale);
 }
 

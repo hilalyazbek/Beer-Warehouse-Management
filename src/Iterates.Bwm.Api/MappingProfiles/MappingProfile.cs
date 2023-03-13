@@ -11,5 +11,6 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Beer, AddBeerDTO>().ReverseMap();
+        CreateMap<Sale, AddSaleDTO>().ReverseMap();
     }
 }

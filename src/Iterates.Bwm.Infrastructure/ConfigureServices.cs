@@ -25,7 +25,8 @@ public static class ConfigureServices
         services.AddScoped<IGenericRepository<Beer>, GenericRepository<Beer>>();
         services.AddScoped<IGenericRepository<Wholesaler>, GenericRepository<Wholesaler>>();
         services.AddScoped<IGenericRepository<WholesalerStock>, GenericRepository<WholesalerStock>>();
-        
+        services.AddScoped<IGenericRepository<Sale>, GenericRepository<Sale>>();
+
         return services;
     }
 }
