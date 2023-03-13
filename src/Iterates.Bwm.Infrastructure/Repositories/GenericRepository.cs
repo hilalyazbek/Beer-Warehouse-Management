@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iterates.Bwm.Infrastructure.Repositories;
 
-public class AsyncRepository<T> : IGenericRepository<T> where T : class
+public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
-    private readonly AppDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-    public AsyncRepository(AppDbContext dbContext)
+    public GenericRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
