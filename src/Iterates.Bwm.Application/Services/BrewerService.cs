@@ -61,29 +61,7 @@ public class BrewerService : IBrewerService
 
     public async Task<Sale> AddSaleToWholesalerAsync(Sale sale)
     {
-        var wholesaler = sale.Wholesaler;
-
         var addedSale = await _saleRepository.AddAsync(sale);
-
-        if (wholesaler.WholesalerStocks.Any(s => s.BeerId == sale.BeerId))
-        {
-            var existingStock = wholesaler.WholesalerStocks.First(s => s.BeerId == sale.BeerId);
-            existingStock.Stock += wholesaler.WholesalerStocks.Count;
-            await _wholesalerStockRepository.UpdateAsync(existingStock);
-        }
-        else
-        {
-            var stockToBeAdded = new WholesalerStock()
-            {
-                Beer = sale.Beer,
-                BeerId = sale.BeerId,
-                Stock = sale.Stock,
-                Wholesaler = wholesaler,
-                WholesalerId = sale.WholesalerId
-            };
-
-            await _wholesalerStockRepository.AddAsync(stockToBeAdded);
-        }
 
         return addedSale;
     }

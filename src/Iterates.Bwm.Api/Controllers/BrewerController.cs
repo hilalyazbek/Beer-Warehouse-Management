@@ -75,8 +75,8 @@ public class BrewerController : Controller
         }
     }
 
-    [HttpPost("{brewerId}/sales/")]
-    public async Task<ActionResult<Sale>> AddSaleToWholesaler(Guid brewerId, AddSaleDTO sale)
+    [HttpPost("/sales/")]
+    public async Task<ActionResult<Sale>> AddSaleToWholesaler(AddSaleDTO sale)
     {
         if (!ModelState.IsValid)
         {
@@ -98,11 +98,13 @@ public class BrewerController : Controller
         saleToAdd.Wholesaler = wholesaler;
         saleToAdd.Beer = beer;
 
-        var addedSale = _brewerService.AddSaleToWholesalerAsync(saleToAdd);
+        var addedSale = await _brewerService.AddSaleToWholesalerAsync(saleToAdd);
         if(addedSale is null)
         {
             return BadRequest($"Something went wrong when adding the sale of Beer {sale.BeerId} to Wholesaler {sale.WholesalerId}");
         }
+
+        await _wholesalerService.UpdateStockAsync(addedSale.Wholesaler, addedSale.BeerId, addedSale.Stock);
 
         return Ok(addedSale);
 

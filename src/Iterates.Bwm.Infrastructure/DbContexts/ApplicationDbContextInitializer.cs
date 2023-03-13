@@ -25,10 +25,10 @@ internal class ApplicationDbContextInitializer
         modelBuilder.Entity<Beer>().HasData(
             new Beer {
                 Id = Guid.Parse("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
+                BrewerId = Guid.Parse("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"),
                 Name = " Leffe Blonde",
                 AlcoholContent = "6,6%",
-                BatchNumber = "Batch #231",
-                BrewerId = Guid.Parse("bab4cfe6-e3e9-48c6-9230-8f232a25eda0")
+                BatchNumber = "Batch #231"                
             }
         );
 

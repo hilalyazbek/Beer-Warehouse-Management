@@ -1,6 +1,5 @@
-﻿using Iterates.Bwm.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Iterates.Bwm.Domain.Entities;
 
 namespace Iterates.Bwm.Api.DTOs;
 
