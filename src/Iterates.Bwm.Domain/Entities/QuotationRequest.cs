@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace Iterates.Bwm.Domain.Entities;
 
-public class WholesalerStock : EntityBase
+public class QuotationRequest : EntityBase
 {
     public Guid WholesalerId { get; set; }
     public Wholesaler? Wholesaler { get; set; }
+    public List<ItemRequest>? Items { get; set; }
+}
+
+public class ItemRequest
+{
     public Guid BeerId { get; set; }
-    public Beer? Beer { get; set; }
-    public int Stock { get; set; }
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal Price { get; set; }
+    public int Quantity { get; set; }
 }

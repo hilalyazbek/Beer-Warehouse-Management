@@ -11,9 +11,24 @@ namespace Iterates.Bwm.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Beers_Brewers_BrewerId",
+                table: "Beers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Beers_BrewerId",
+                table: "Beers");
+
             migrationBuilder.DropColumn(
                 name: "Price",
                 table: "Beers");
+
+            migrationBuilder.AddColumn<decimal>(
+                name: "Price",
+                table: "WholesalerStocks",
+                type: "decimal(18,2)",
+                nullable: false,
+                defaultValue: 0m);
 
             migrationBuilder.AddColumn<string>(
                 name: "BatchNumber",
@@ -58,54 +73,54 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                 keyColumn: "Id",
                 keyValue: new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
                 columns: new[] { "BatchNumber", "Created", "Updated" },
-                values: new object[] { "Batch #231", new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4766), new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4766) });
+                values: new object[] { "Batch #231", new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1800), new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1800) });
 
             migrationBuilder.UpdateData(
                 table: "Brewers",
                 keyColumn: "Id",
                 keyValue: new Guid("8c641b60-6d70-4fb3-94f0-e8f6c23e8535"),
                 columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4641), new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4642) });
+                values: new object[] { new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1700), new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1700) });
 
             migrationBuilder.UpdateData(
                 table: "Brewers",
                 keyColumn: "Id",
                 keyValue: new Guid("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"),
                 columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4611), new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4621) });
+                values: new object[] { new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1630), new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1660) });
 
             migrationBuilder.InsertData(
                 table: "Sales",
                 columns: new[] { "Id", "BeerId", "BrewerId", "Created", "Delivery", "OrderNumber", "Price", "Stock", "Updated", "WholesalerId" },
-                values: new object[] { new Guid("5633ec69-7546-42a3-95cd-a949c2f69601"), new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"), new Guid("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"), new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4792), true, "#BRU241", 2.20m, 1000, new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4793), new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67") });
+                values: new object[] { new Guid("499e866c-d0fd-4c5e-9856-6720c350c714"), new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"), new Guid("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"), new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1840), true, "#BRU241", 2.20m, 1000, new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1840), new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67") });
 
             migrationBuilder.UpdateData(
                 table: "WholesalerStocks",
                 keyColumns: new[] { "BeerId", "WholesalerId" },
                 keyValues: new object[] { new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"), new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67") },
-                columns: new[] { "Created", "Id", "Updated" },
-                values: new object[] { new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4840), new Guid("24f3e073-c3e9-437d-b8a3-fc2a7e7642af"), new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4840) });
+                columns: new[] { "Created", "Id", "Price", "Updated" },
+                values: new object[] { new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1920), new Guid("78c128c3-0ebd-464d-8b2b-7bbac3b17604"), 2.2m, new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1920) });
 
             migrationBuilder.UpdateData(
                 table: "WholesalerStocks",
                 keyColumns: new[] { "BeerId", "WholesalerId" },
                 keyValues: new object[] { new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"), new Guid("4a413b7b-3b8e-457f-b7af-4944b7dd8cda") },
-                columns: new[] { "Created", "Id", "Updated" },
-                values: new object[] { new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4844), new Guid("249474e0-e61f-4d2f-b768-205c570de3e5"), new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4844) });
+                columns: new[] { "Created", "Id", "Price", "Updated" },
+                values: new object[] { new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1940), new Guid("21e93c96-e2b0-4f02-af10-fbd31555b983"), 2.3m, new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1940) });
 
             migrationBuilder.UpdateData(
                 table: "Wholesalers",
                 keyColumn: "Id",
                 keyValue: new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67"),
                 columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4818), new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4818) });
+                values: new object[] { new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1880), new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1880) });
 
             migrationBuilder.UpdateData(
                 table: "Wholesalers",
                 keyColumn: "Id",
                 keyValue: new Guid("4a413b7b-3b8e-457f-b7af-4944b7dd8cda"),
                 columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4821), new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4821) });
+                values: new object[] { new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1890), new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1890) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sales_BeerId",
@@ -123,6 +138,10 @@ namespace Iterates.Bwm.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Sales");
+
+            migrationBuilder.DropColumn(
+                name: "Price",
+                table: "WholesalerStocks");
 
             migrationBuilder.DropColumn(
                 name: "BatchNumber",
@@ -183,6 +202,19 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                 keyValue: new Guid("4a413b7b-3b8e-457f-b7af-4944b7dd8cda"),
                 columns: new[] { "Created", "Updated" },
                 values: new object[] { new DateTime(2023, 3, 13, 8, 27, 59, 622, DateTimeKind.Local).AddTicks(8111), new DateTime(2023, 3, 13, 8, 27, 59, 622, DateTimeKind.Local).AddTicks(8111) });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Beers_BrewerId",
+                table: "Beers",
+                column: "BrewerId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Beers_Brewers_BrewerId",
+                table: "Beers",
+                column: "BrewerId",
+                principalTable: "Brewers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }

@@ -60,12 +60,14 @@ internal class ApplicationDbContextInitializer
             new WholesalerStock {
                 WholesalerId = Guid.Parse("1847dd70-7b84-4fd7-a611-0e46dbfe0f67"),
                 BeerId = Guid.Parse("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
-                Stock = 100
+                Stock = 100,
+                Price = 2.2m
             },
             new WholesalerStock {
                 WholesalerId = Guid.Parse("4a413b7b-3b8e-457f-b7af-4944b7dd8cda"),
                 BeerId = Guid.Parse("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
-                Stock = 500
+                Stock = 500,
+                Price = 2.3m
             }
         );
     }

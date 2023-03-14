@@ -131,10 +131,9 @@ public class BrewersController : Controller
             return BadRequest($"Something went wrong when adding the sale of Beer {sale.BeerId} to Wholesaler {sale.WholesalerId}");
         }
 
-        await _wholesalerService.UpdateStockAsync(addedSale.Wholesaler, addedSale.BeerId, addedSale.Stock);
+        await _wholesalerService.UpdateStockAsync(addedSale);
 
         return Ok(addedSale);
-
     }
 }
 

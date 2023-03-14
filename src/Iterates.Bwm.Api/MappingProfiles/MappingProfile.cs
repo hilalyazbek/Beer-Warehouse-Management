@@ -12,5 +12,9 @@ public class MappingProfile : Profile
     {
         CreateMap<Beer, AddBeerDTO>().ReverseMap();
         CreateMap<Sale, AddSaleDTO>().ReverseMap();
+        CreateMap<QuotationRequest, QuotationRequestDTO>().ReverseMap();
+        CreateMap<QuotationResponse, QuotationResponseDTO>().ReverseMap();
+        CreateMap<ItemRequest, ItemRequestDTO>().ReverseMap();
+        CreateMap<ItemResponse, ItemResponseDTO>().ReverseMap();
     }
 }

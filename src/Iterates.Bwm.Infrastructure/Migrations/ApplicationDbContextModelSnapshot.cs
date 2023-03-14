@@ -17,7 +17,7 @@ namespace Iterates.Bwm.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -48,8 +48,6 @@ namespace Iterates.Bwm.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrewerId");
-
                     b.ToTable("Beers");
 
                     b.HasData(
@@ -59,9 +57,9 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                             AlcoholContent = "6,6%",
                             BatchNumber = "Batch #231",
                             BrewerId = new Guid("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"),
-                            Created = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4766),
+                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1800),
                             Name = " Leffe Blonde",
-                            Updated = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4766)
+                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1800)
                         });
                 });
 
@@ -88,16 +86,16 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"),
-                            Created = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4611),
+                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1630),
                             Name = "Abbaye de Leffe",
-                            Updated = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4621)
+                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1660)
                         },
                         new
                         {
                             Id = new Guid("8c641b60-6d70-4fb3-94f0-e8f6c23e8535"),
-                            Created = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4641),
+                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1700),
                             Name = "Brasserie de la Senne",
-                            Updated = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4642)
+                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1700)
                         });
                 });
 
@@ -145,15 +143,15 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5633ec69-7546-42a3-95cd-a949c2f69601"),
+                            Id = new Guid("499e866c-d0fd-4c5e-9856-6720c350c714"),
                             BeerId = new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
                             BrewerId = new Guid("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"),
-                            Created = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4792),
+                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1840),
                             Delivery = true,
                             OrderNumber = "#BRU241",
                             Price = 2.20m,
                             Stock = 1000,
-                            Updated = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4793),
+                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1840),
                             WholesalerId = new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67")
                         });
                 });
@@ -181,16 +179,16 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67"),
-                            Created = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4818),
+                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1880),
                             Name = "GeneDrinks",
-                            Updated = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4818)
+                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1880)
                         },
                         new
                         {
                             Id = new Guid("4a413b7b-3b8e-457f-b7af-4944b7dd8cda"),
-                            Created = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4821),
+                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1890),
                             Name = "OneShot",
-                            Updated = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4821)
+                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1890)
                         });
                 });
 
@@ -207,6 +205,9 @@ namespace Iterates.Bwm.Infrastructure.Migrations
 
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int");
@@ -225,29 +226,22 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                         {
                             WholesalerId = new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67"),
                             BeerId = new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
-                            Created = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4840),
-                            Id = new Guid("24f3e073-c3e9-437d-b8a3-fc2a7e7642af"),
+                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1920),
+                            Id = new Guid("78c128c3-0ebd-464d-8b2b-7bbac3b17604"),
+                            Price = 2.2m,
                             Stock = 100,
-                            Updated = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4840)
+                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1920)
                         },
                         new
                         {
                             WholesalerId = new Guid("4a413b7b-3b8e-457f-b7af-4944b7dd8cda"),
                             BeerId = new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
-                            Created = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4844),
-                            Id = new Guid("249474e0-e61f-4d2f-b768-205c570de3e5"),
+                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1940),
+                            Id = new Guid("21e93c96-e2b0-4f02-af10-fbd31555b983"),
+                            Price = 2.3m,
                             Stock = 500,
-                            Updated = new DateTime(2023, 3, 14, 9, 54, 13, 474, DateTimeKind.Local).AddTicks(4844)
+                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1940)
                         });
-                });
-
-            modelBuilder.Entity("Iterates.Bwm.Domain.Entities.Beer", b =>
-                {
-                    b.HasOne("Iterates.Bwm.Domain.Entities.Brewer", null)
-                        .WithMany("Beers")
-                        .HasForeignKey("BrewerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Iterates.Bwm.Domain.Entities.Sale", b =>
@@ -286,11 +280,6 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                     b.Navigation("Beer");
 
                     b.Navigation("Wholesaler");
-                });
-
-            modelBuilder.Entity("Iterates.Bwm.Domain.Entities.Brewer", b =>
-                {
-                    b.Navigation("Beers");
                 });
 #pragma warning restore 612, 618
         }
