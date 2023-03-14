@@ -14,17 +14,29 @@ namespace Iterates.Bwm.Api.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class BrewerController : Controller
+public class BrewersController : Controller
 {
     private readonly IBrewerService _brewerService;
     private readonly IWholesalerService _wholesalerService;
     private readonly IMapper _mapper;
 
-    public BrewerController(IBrewerService brewerService, IWholesalerService wholesalerService, IMapper mapper)
+    public BrewersController(IBrewerService brewerService, IWholesalerService wholesalerService, IMapper mapper)
     {
         _brewerService = brewerService;
         _mapper = mapper;
         _wholesalerService = wholesalerService;
+    }
+
+    [HttpGet()]
+    public async Task<ActionResult<IEnumerable<Brewer>>> GetBrewers()
+    {
+        var brewers = await _brewerService.GetAllBrewersAsync();
+        if (brewers == null)
+        {
+            return NotFound($"No brewers added");
+        }
+
+        return Ok(brewers);
     }
 
     [HttpGet("{brewerId}/beers/")]
@@ -49,16 +61,23 @@ public class BrewerController : Controller
         }
 
         var beerToAdd = _mapper.Map<Beer>(beer);
+        beerToAdd.BrewerId = brewerId;
 
         var addedBeer = await _brewerService.AddBeerAsync(beerToAdd);
 
         return Ok(addedBeer);
     }
 
-    [HttpDelete("beers/{id}")]
-    public async Task<IActionResult> DeleteBeerAsync(Guid id)
+    [HttpDelete("{brewerId}/beers/{id}")]
+    public async Task<IActionResult> DeleteBeerAsync(Guid brewerId, Guid id)
     {
-        var beerToDelete = await _brewerService.GetBeerAsync(id);
+        var brewer = await _brewerService.GetBrewerAsync(brewerId);
+        if(brewer is null)
+        {
+            return NotFound($"Brewer with id {brewerId} wnot found");
+        }
+
+        var beerToDelete = await _brewerService.GetBeerAsync(brewerId, id);
         if (beerToDelete == null)
         {
             return NotFound($"Beer with ID {id} not found");
@@ -75,28 +94,36 @@ public class BrewerController : Controller
         }
     }
 
-    [HttpPost("/sales/")]
-    public async Task<ActionResult<Sale>> AddSaleToWholesaler(AddSaleDTO sale)
+    [HttpPost("{brewerId}/sales/")]
+    public async Task<ActionResult<Sale>> AddSaleToWholesaler(Guid brewerId, AddSaleDTO sale)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+
+        var brewer = await _brewerService.GetBrewerAsync(brewerId);
+        if(brewer is null)
+        {
+            return NotFound($"Brewer with id {brewerId} was not found");
+        }
+
         var wholesaler = await _wholesalerService.GetByIdAsync(sale.WholesalerId);
         if (wholesaler == null)
         {
-            throw new ArgumentException($"Wholesaler with ID {sale.WholesalerId} not found");
+            return NotFound($"Wholesaler with ID {sale.WholesalerId} not found");
         }
 
-        var beer = await _brewerService.GetBeerAsync(sale.BeerId);
+        var beer = await _brewerService.GetBeerAsync(brewerId, sale.BeerId);
         if (beer == null)
         {
-            throw new ArgumentException($"Beer with ID {sale.BeerId} not found");
+            return NotFound($"Beer with ID {sale.BeerId} not found");
         }
 
         var saleToAdd = _mapper.Map<Sale>(sale);
         saleToAdd.Wholesaler = wholesaler;
         saleToAdd.Beer = beer;
+        saleToAdd.BrewerId = brewerId;
 
         var addedSale = await _brewerService.AddSaleToWholesalerAsync(saleToAdd);
         if(addedSale is null)

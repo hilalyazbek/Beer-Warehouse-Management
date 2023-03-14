@@ -26,10 +26,9 @@ public class BrewerService : IBrewerService
         _saleRepository = saleRepository;
     }
 
-    public async Task<Beer> AddBeerAsync(Beer beer)
+    public async Task<IEnumerable<Brewer>> GetAllBrewersAsync()
     {
-        var addedBeer = await _beerRepository.AddAsync(beer);
-        return addedBeer;
+        return await _brewerRepository.GetAllAsync();
     }
 
     public async Task<Brewer> GetBrewerAsync(Guid id)
@@ -39,11 +38,22 @@ public class BrewerService : IBrewerService
         return brewer;
     }
 
-    public async Task<Beer> GetBeerAsync(Guid id)
+    public async Task<Beer> AddBeerAsync(Beer beer)
     {
-        var beer = await _beerRepository.GetByIdAsync(id);
+        var addedBeer = await _beerRepository.AddAsync(beer);
+        return addedBeer;
+    }
 
-        return beer;
+    public async Task<Beer?> GetBeerAsync(Guid bewerId, Guid beerId)
+    {
+        var beer = await _beerRepository.FindAsync(itm => itm.BrewerId == bewerId && itm.Id == beerId);
+
+        if(beer is null)
+        {
+            return null;
+        }
+
+        return beer.FirstOrDefault();
     }
 
     public async Task<bool> DeleteBeerAsync(Beer beer)
@@ -65,4 +75,6 @@ public class BrewerService : IBrewerService
 
         return addedSale;
     }
+
+
 }

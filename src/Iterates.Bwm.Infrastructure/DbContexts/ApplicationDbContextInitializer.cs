@@ -35,6 +35,7 @@ internal class ApplicationDbContextInitializer
         modelBuilder.Entity<Sale>().HasData(
            new Sale
            {
+               BrewerId = Guid.Parse("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"),
                BeerId = Guid.Parse("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
                WholesalerId = Guid.Parse("1847dd70-7b84-4fd7-a611-0e46dbfe0f67"),
                OrderNumber = "#BRU241",

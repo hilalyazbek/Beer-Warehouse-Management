@@ -9,6 +9,7 @@ namespace Iterates.Bwm.Domain.Entities;
 
 public class Sale : EntityBase
 {
+    public Guid BrewerId { get; set; }
     public Guid WholesalerId { get; set; }
     public Wholesaler? Wholesaler { get; set; }
     public Guid BeerId { get; set; }
