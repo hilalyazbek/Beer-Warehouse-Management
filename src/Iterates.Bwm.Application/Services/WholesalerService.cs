@@ -80,7 +80,7 @@ public class WholesalerService : IWholesalerService
         return result;
     }
 
-    private object GetQuotation(List<ItemRequest> items)
+    private List<ItemResponse> GetQuotation(List<ItemRequest> items)
     {
         var result = new List<ItemResponse>();
 

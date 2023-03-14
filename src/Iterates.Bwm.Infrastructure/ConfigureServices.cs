@@ -19,12 +19,12 @@ public static class ConfigureServices
         var conn = configuration.GetConnectionString("DefaultConnection");
         // Add Postgres DB Context
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(conn));
-
+            options.UseSqlServer(conn), ServiceLifetime.Transient);
+        
         services.AddScoped<IGenericRepository<Brewer>, GenericRepository<Brewer>>();
         services.AddScoped<IGenericRepository<Beer>, GenericRepository<Beer>>();
-        services.AddScoped<IGenericRepository<Wholesaler>, GenericRepository<Wholesaler>>();
-        services.AddScoped<IGenericRepository<WholesalerStock>, GenericRepository<WholesalerStock>>();
+        services.AddTransient<IGenericRepository<Wholesaler>, GenericRepository<Wholesaler>>();
+        services.AddTransient<IGenericRepository<WholesalerStock>, GenericRepository<WholesalerStock>>();
         services.AddScoped<IGenericRepository<Sale>, GenericRepository<Sale>>();
 
         return services;
