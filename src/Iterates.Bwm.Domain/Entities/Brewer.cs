@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Iterates.Bwm.Infrastructure.DbContexts;
+namespace Iterates.Bwm.Domain.Entities;
 
-internal class AppDbContext
+public class Brewer : EntityBase
 {
+    public string? Name { get; set; }
 }

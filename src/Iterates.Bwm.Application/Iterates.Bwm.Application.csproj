@@ -11,8 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Implementations\" />
-    <Folder Include="Interfaces\" />
+    <None Remove="Services\" />
   </ItemGroup>
-
 </Project>
