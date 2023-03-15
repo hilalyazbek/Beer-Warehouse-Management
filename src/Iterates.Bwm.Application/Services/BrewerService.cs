@@ -1,7 +1,7 @@
 ﻿using System;
 using Iterates.Bwm.Application.Interfaces;
 using Iterates.Bwm.Domain.Entities;
-using Iterates.Bwm.Domain.Interfaces;
+using Iterates.Bwm.Domain.Interfaces.Repositories;
 
 namespace Iterates.Bwm.Application.Services;
 
@@ -35,6 +35,7 @@ public class BrewerService : IBrewerService
     public async Task<Beer> AddBeerAsync(Beer beer)
     {
         var addedBeer = await _beerRepository.AddAsync(beer);
+
         return addedBeer;
     }
 
@@ -53,6 +54,7 @@ public class BrewerService : IBrewerService
     public async Task<bool> DeleteBeerAsync(Beer beer)
     {
         await _beerRepository.RemoveAsync(beer);
+
         return true;
     }
 

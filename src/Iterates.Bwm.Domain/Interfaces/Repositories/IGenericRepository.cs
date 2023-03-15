@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Iterates.Bwm.Domain.Interfaces;
+namespace Iterates.Bwm.Domain.Interfaces.Repositories;
 
 public interface IGenericRepository<T> where T : class
 {

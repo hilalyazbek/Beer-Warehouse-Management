@@ -1,7 +1,7 @@
 ﻿using System;
 using Iterates.Bwm.Application.Interfaces;
 using Iterates.Bwm.Domain.Entities;
-using Iterates.Bwm.Domain.Interfaces;
+using Iterates.Bwm.Domain.Interfaces.Repositories;
 
 namespace Iterates.Bwm.Application.Services;
 
@@ -25,14 +25,14 @@ public class WholesalerService : IWholesalerService
         return wholesaler;
     }
 
-    public async Task<WholesalerStock> GetStocksByBeerIdAsync(Guid id)
+    public async Task<WholesalerStock?> GetStocksByBeerIdAsync(Guid id)
     {
         var beerStock = await _wholesalerStockRepository.FindAsync(itm => itm.BeerId == id);
 
         return beerStock.FirstOrDefault();
     }
 
-    public async Task<WholesalerStock> UpdateStockAsync(Sale sale)
+    public async Task<WholesalerStock?> UpdateStockAsync(Sale sale)
     {
         var beerId = sale.BeerId;
         var stock = sale.Stock;
@@ -110,7 +110,7 @@ public class WholesalerService : IWholesalerService
             if (discount != 0)
             {
                 var originalPrice = item.Quantity * currentStock.Price;
-                priceAfterDiscount = originalPrice - ((originalPrice / discount) / 100);
+                priceAfterDiscount = originalPrice - (originalPrice * (discount / 100));
             }
 
             result.Add(new ItemResponse()
@@ -127,7 +127,7 @@ public class WholesalerService : IWholesalerService
         return result;
     }
 
-    private int CheckDiscount(int quantity)
+    private decimal CheckDiscount(int quantity)
     {
         if (quantity > 20)
         {
