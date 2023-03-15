@@ -35,6 +35,7 @@ public class BrewerService : IBrewerService
     public async Task<Beer> AddBeerAsync(Beer beer)
     {
         var addedBeer = await _beerRepository.AddAsync(beer);
+
         return addedBeer;
     }
 
@@ -53,6 +54,7 @@ public class BrewerService : IBrewerService
     public async Task<bool> DeleteBeerAsync(Beer beer)
     {
         await _beerRepository.RemoveAsync(beer);
+
         return true;
     }
 
