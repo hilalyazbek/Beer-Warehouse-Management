@@ -16,5 +16,6 @@ public class MappingProfile : Profile
         CreateMap<QuotationResponse, QuotationResponseDTO>().ReverseMap();
         CreateMap<ItemRequest, ItemRequestDTO>().ReverseMap();
         CreateMap<ItemResponse, ItemResponseDTO>().ReverseMap();
+        CreateMap<Wholesaler, WholesalerDTO>().ReverseMap();
     }
 }

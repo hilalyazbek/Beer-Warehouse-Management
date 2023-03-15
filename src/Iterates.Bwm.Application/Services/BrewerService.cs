@@ -9,20 +9,14 @@ public class BrewerService : IBrewerService
 {
     private readonly IGenericRepository<Brewer> _brewerRepository;
     private readonly IGenericRepository<Beer> _beerRepository;
-    private readonly IGenericRepository<Wholesaler> _wholesalerRepository;
-    private readonly IGenericRepository<WholesalerStock> _wholesalerStockRepository;
     private readonly IGenericRepository<Sale> _saleRepository;
 
     public BrewerService(IGenericRepository<Brewer> brewerRepository,
                           IGenericRepository<Beer> beerRepository,
-                          IGenericRepository<Wholesaler> wholesalerRepository,
-                          IGenericRepository<WholesalerStock> wholesalerStockRepository,
                           IGenericRepository<Sale> saleRepository)
     {
         _brewerRepository = brewerRepository;
         _beerRepository = beerRepository;
-        _wholesalerRepository = wholesalerRepository;
-        _wholesalerStockRepository = wholesalerStockRepository;
         _saleRepository = saleRepository;
     }
 

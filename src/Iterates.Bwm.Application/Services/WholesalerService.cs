@@ -60,34 +60,37 @@ public class WholesalerService : IWholesalerService
         return null;
     }
 
-    public async Task<QuotationResponse> GetQuoteResponseAsync(QuotationRequest quoteRequest)
+    public async Task<QuotationResponse?> GetQuoteResponseAsync(QuotationRequest quoteRequest)
     {
         if (quoteRequest.Items is null || quoteRequest.Items.Count() == 0)
         {
             return null;
         }
 
-        var wholesaler = await _wholesalerRepository.GetByIdAsync(quoteRequest.WholesalerId);
-
         var result = new QuotationResponse()
         {
-            WholesalerId = quoteRequest.WholesalerId,
-            Wholesaler = wholesaler
+            Wholesaler = quoteRequest.Wholesaler
         };
+        
+        result.Items = GetQuotation(quoteRequest.WholesalerId, quoteRequest.Items);
 
-        var items = GetQuotation(quoteRequest.Items);
+        result.Description = $"Quotation generated for {result.Items.Count} items";
 
         return result;
     }
 
-    private List<ItemResponse> GetQuotation(List<ItemRequest> items)
+    private List<ItemResponse> GetQuotation(Guid wholesalerId, List<ItemRequest> items)
     {
         var result = new List<ItemResponse>();
 
         foreach (var item in items)
         {
-            var stock = _wholesalerStockRepository.FindAsync(itm => itm.BeerId == item.BeerId).Result.FirstOrDefault();
-            if (stock is null)
+            var currentStock = _wholesalerStockRepository.FindAsync(
+                itm => itm.BeerId == item.BeerId 
+                && item.Quantity <= itm.Stock
+                && itm.WholesalerId == wholesalerId).Result.FirstOrDefault();
+
+            if (currentStock is null)
             {
                 result.Add(new ItemResponse()
                 {
@@ -101,21 +104,22 @@ public class WholesalerService : IWholesalerService
                 });
                 continue;
             }
+
             var discount = CheckDiscount(item.Quantity);
             var priceAfterDiscount = 0.0m;
             if (discount != 0)
             {
-                var originalPrice = item.Quantity * stock.Price;
+                var originalPrice = item.Quantity * currentStock.Price;
                 priceAfterDiscount = originalPrice - ((originalPrice / discount) / 100);
             }
 
             result.Add(new ItemResponse()
             {
-                BeerId = item.BeerId,
+                BeerId = currentStock.BeerId,
                 Quantity = item.Quantity,
                 Description = "Beer is Available",
                 Discount = $"{discount} % applied",
-                PriceBeforeDiscount = item.Quantity * stock.Price,
+                PriceBeforeDiscount = item.Quantity * currentStock.Price,
                 PriceAfterDiscount = priceAfterDiscount
             });
         }

@@ -11,6 +11,7 @@ public class QuotationResponse : EntityBase
 {
     public Guid WholesalerId { get; set; }
     public Wholesaler? Wholesaler { get; set; }
+    public string? Description { get; set; }
     public List<ItemResponse>? Items { get; set; }
 }
 

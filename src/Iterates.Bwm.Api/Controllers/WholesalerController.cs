@@ -28,7 +28,7 @@ public class WholesalerController : Controller
     [HttpPost("/quotes")]
     public async Task<ActionResult<QuotationResponseDTO>> GetQuote(QuotationRequestDTO quoteRequestDTO)
     {
-        var wholesaler = _wholesalerService.GetByIdAsync(quoteRequestDTO.WholesalerId);
+        var wholesaler = await _wholesalerService.GetByIdAsync(quoteRequestDTO.WholesalerId);
         if(wholesaler is null)
         {
             return NotFound($"Wholesaler with id {quoteRequestDTO.WholesalerId} not found");
@@ -41,6 +41,7 @@ public class WholesalerController : Controller
         }
 
         var quoteRequest = _mapper.Map<QuotationRequest>(quoteRequestDTO);
+        quoteRequest.Wholesaler = wholesaler;
 
         var quoteResponse = await _wholesalerService.GetQuoteResponseAsync(quoteRequest);
 

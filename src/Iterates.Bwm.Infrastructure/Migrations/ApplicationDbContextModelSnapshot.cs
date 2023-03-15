@@ -57,9 +57,9 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                             AlcoholContent = "6,6%",
                             BatchNumber = "Batch #231",
                             BrewerId = new Guid("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"),
-                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1800),
+                            Created = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1764),
                             Name = " Leffe Blonde",
-                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1800)
+                            Updated = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1764)
                         });
                 });
 
@@ -86,16 +86,16 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"),
-                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1630),
+                            Created = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1622),
                             Name = "Abbaye de Leffe",
-                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1660)
+                            Updated = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1631)
                         },
                         new
                         {
                             Id = new Guid("8c641b60-6d70-4fb3-94f0-e8f6c23e8535"),
-                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1700),
+                            Created = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1646),
                             Name = "Brasserie de la Senne",
-                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1700)
+                            Updated = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1647)
                         });
                 });
 
@@ -143,15 +143,15 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("499e866c-d0fd-4c5e-9856-6720c350c714"),
+                            Id = new Guid("65c1357a-1a7c-4124-8c14-1a875c10ad7c"),
                             BeerId = new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
                             BrewerId = new Guid("bab4cfe6-e3e9-48c6-9230-8f232a25eda0"),
-                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1840),
+                            Created = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1786),
                             Delivery = true,
                             OrderNumber = "#BRU241",
                             Price = 2.20m,
                             Stock = 1000,
-                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1840),
+                            Updated = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1787),
                             WholesalerId = new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67")
                         });
                 });
@@ -179,16 +179,16 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67"),
-                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1880),
+                            Created = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1811),
                             Name = "GeneDrinks",
-                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1880)
+                            Updated = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1811)
                         },
                         new
                         {
                             Id = new Guid("4a413b7b-3b8e-457f-b7af-4944b7dd8cda"),
-                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1890),
+                            Created = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1826),
                             Name = "OneShot",
-                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1890)
+                            Updated = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1827)
                         });
                 });
 
@@ -226,21 +226,21 @@ namespace Iterates.Bwm.Infrastructure.Migrations
                         {
                             WholesalerId = new Guid("1847dd70-7b84-4fd7-a611-0e46dbfe0f67"),
                             BeerId = new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
-                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1920),
-                            Id = new Guid("78c128c3-0ebd-464d-8b2b-7bbac3b17604"),
+                            Created = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1844),
+                            Id = new Guid("a19733db-ca1b-4c0a-86a7-d8ae6e414714"),
                             Price = 2.2m,
                             Stock = 100,
-                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1920)
+                            Updated = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1844)
                         },
                         new
                         {
                             WholesalerId = new Guid("4a413b7b-3b8e-457f-b7af-4944b7dd8cda"),
                             BeerId = new Guid("e3fa75d9-82bb-44c8-8ff5-7e3e0ff7f767"),
-                            Created = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1940),
-                            Id = new Guid("21e93c96-e2b0-4f02-af10-fbd31555b983"),
+                            Created = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1848),
+                            Id = new Guid("344189d2-0461-402a-97ff-ea8b843bc86d"),
                             Price = 2.3m,
                             Stock = 500,
-                            Updated = new DateTime(2023, 3, 14, 21, 19, 34, 704, DateTimeKind.Local).AddTicks(1940)
+                            Updated = new DateTime(2023, 3, 15, 7, 48, 7, 274, DateTimeKind.Local).AddTicks(1848)
                         });
                 });
 
