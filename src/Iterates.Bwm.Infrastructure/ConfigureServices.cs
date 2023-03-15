@@ -1,5 +1,4 @@
 ﻿using Iterates.Bwm.Domain.Entities;
-using Iterates.Bwm.Domain.Interfaces;
 using Iterates.Bwm.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Iterates.Bwm.Infrastructure.Repositories;
+using WatchDog;
+using WatchDog.src.Enums;
+using Iterates.Bwm.Domain.Interfaces.Repositories;
+using Iterates.Bwm.Domain.Interfaces.Logging;
+using Iterates.Bwm.Infrastructure.Logging;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +21,7 @@ public static class ConfigureServices
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         var conn = configuration.GetConnectionString("DefaultConnection");
-        // Add Postgres DB Context
+        // Add MSSQL DB Context
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(conn));
         
@@ -28,5 +32,19 @@ public static class ConfigureServices
         services.AddScoped<IGenericRepository<Sale>, GenericRepository<Sale>>();
 
         return services;
+    }
+
+    public static void AddLoggingServices(this IServiceCollection services, IConfiguration configuration)
+    {
+
+        var conn = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddSingleton<ILoggerManager, LoggerManager>();
+
+        services.AddWatchDogServices(settings =>
+        {
+            settings.DbDriverOption = WatchDogDbDriverEnum.MSSQL;
+            settings.SetExternalDbConnString = conn;
+        });
     }
 }

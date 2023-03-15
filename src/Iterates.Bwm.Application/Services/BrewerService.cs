@@ -1,7 +1,7 @@
 ﻿using System;
 using Iterates.Bwm.Application.Interfaces;
 using Iterates.Bwm.Domain.Entities;
-using Iterates.Bwm.Domain.Interfaces;
+using Iterates.Bwm.Domain.Interfaces.Repositories;
 
 namespace Iterates.Bwm.Application.Services;
 

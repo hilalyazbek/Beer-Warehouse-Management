@@ -1,8 +1,8 @@
 ﻿using System;
 using Iterates.Bwm.Infrastructure.DbContexts;
 using System.Linq.Expressions;
-using Iterates.Bwm.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Iterates.Bwm.Domain.Interfaces.Repositories;
 
 namespace Iterates.Bwm.Infrastructure.Repositories;
 
