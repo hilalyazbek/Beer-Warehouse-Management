@@ -25,9 +25,10 @@ public class WholesalerService : IWholesalerService
         return wholesaler;
     }
 
-    public async Task<WholesalerStock?> GetStocksByBeerIdAsync(Guid id)
+    public async Task<WholesalerStock?> GetStockByBeerIdAsync(Guid wholesalerId, Guid id)
     {
-        var beerStock = await _wholesalerStockRepository.FindAsync(itm => itm.BeerId == id);
+        var beerStock = await _wholesalerStockRepository.FindAsync(
+            itm => itm.WholesalerId == wholesalerId && itm.BeerId == id);
 
         return beerStock.FirstOrDefault();
     }
@@ -37,8 +38,9 @@ public class WholesalerService : IWholesalerService
         var beerId = sale.BeerId;
         var stock = sale.Stock;
         var price = sale.Price;
+        var wholesalerId = sale.WholesalerId;
 
-        var existingStock = await GetStocksByBeerIdAsync(beerId);
+        var existingStock = await GetStockByBeerIdAsync(wholesalerId, beerId);
 
         if (existingStock is not null)
         {
@@ -60,35 +62,40 @@ public class WholesalerService : IWholesalerService
         return null;
     }
 
+    public async Task<WholesalerStock?> UpdateStockAsync(Guid wholesalerId, Guid beerId, int quantity)
+    {
+        var existingStock = await GetStockByBeerIdAsync(wholesalerId, beerId);
+        existingStock.Stock += quantity;
+
+        var updatedStock = await _wholesalerStockRepository.UpdateAsync(existingStock);
+
+        return updatedStock;
+    }
+
     public async Task<QuotationResponse?> GetQuoteResponseAsync(QuotationRequest quoteRequest)
     {
-        if (quoteRequest.Items is null || quoteRequest.Items.Count() == 0)
-        {
-            return null;
-        }
-
         var result = new QuotationResponse()
         {
             Wholesaler = quoteRequest.Wholesaler
         };
         
-        result.Items = GetQuotation(quoteRequest.WholesalerId, quoteRequest.Items);
+        result.Items = await GetQuotation(quoteRequest.WholesalerId, quoteRequest.Items);
 
         result.Description = $"Quotation generated for {result.Items.Count} items";
 
         return result;
     }
 
-    private List<ItemResponse> GetQuotation(Guid wholesalerId, List<ItemRequest> items)
+    private async Task<List<ItemResponse>> GetQuotation(Guid wholesalerId, List<ItemRequest> items)
     {
         var result = new List<ItemResponse>();
 
         foreach (var item in items)
         {
             var currentStock = _wholesalerStockRepository.FindAsync(
-                itm => itm.BeerId == item.BeerId 
-                && item.Quantity <= itm.Stock
-                && itm.WholesalerId == wholesalerId).Result.FirstOrDefault();
+                itm => itm.BeerId == item.BeerId
+                && itm.WholesalerId == wholesalerId
+                && item.Quantity <= itm.Stock).Result.FirstOrDefault();
 
             if (currentStock is null)
             {
