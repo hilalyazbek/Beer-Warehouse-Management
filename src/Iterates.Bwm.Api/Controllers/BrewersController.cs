@@ -34,7 +34,7 @@ public class BrewersController : Controller
     }
 
     [HttpGet()]
-    public async Task<ActionResult<IEnumerable<Brewer>>> GetBrewers()
+    public async Task<ActionResult<IEnumerable<BrewerDTO>>> GetBrewers()
     {
         if (!ModelState.IsValid)
         {
@@ -48,11 +48,12 @@ public class BrewersController : Controller
             return NotFound($"No brewers added");
         }
 
-        return Ok(brewers);
+        var result = _mapper.Map<IEnumerable<BrewerDTO>>(brewers);
+        return Ok(result);
     }
 
     [HttpGet("{brewerId}/beers/")]
-    public async Task<ActionResult<IEnumerable<Beer>>> GetBeersByBrewerId(Guid brewerId)
+    public async Task<ActionResult<IEnumerable<BeerDTO>>> GetBeersByBrewerId(Guid brewerId)
     {
         if (!ModelState.IsValid)
         {
@@ -66,11 +67,12 @@ public class BrewersController : Controller
             return NotFound($"No beers found for brewer {brewerId}");
         }
 
-        return Ok(beers);
+        var result = _mapper.Map<IEnumerable<BeerDTO>>(beers);
+        return Ok(result);
     }
 
     [HttpPost("{brewerId}/beers/")]
-    public async Task<ActionResult<Beer>> AddBeerAsync(Guid brewerId, AddBeerDTO beer)
+    public async Task<ActionResult<BeerDTO>> AddBeer(Guid brewerId, AddBeerDTO beer)
     {
         if (!ModelState.IsValid)
         {
@@ -94,11 +96,12 @@ public class BrewersController : Controller
             return BadRequest("Something went wrong");
         }
 
-        return Ok(addedBeer);
+        var result = _mapper.Map<BeerDTO>(beer);
+        return Ok(result);
     }
 
     [HttpDelete("{brewerId}/beers/{id}")]
-    public async Task<IActionResult> DeleteBeerAsync(Guid brewerId, Guid id)
+    public async Task<IActionResult> DeleteBeer(Guid brewerId, Guid id)
     {
         if (!ModelState.IsValid)
         {
@@ -132,7 +135,7 @@ public class BrewersController : Controller
     }
 
     [HttpPost("{brewerId}/sales/")]
-    public async Task<ActionResult<Sale>> AddSaleToWholesaler(Guid brewerId, AddSaleDTO sale)
+    public async Task<ActionResult<ViewSaleDTO>> AddSaleToWholesaler(Guid brewerId, AddSaleDTO sale)
     {
         if (!ModelState.IsValid)
         {
@@ -172,9 +175,15 @@ public class BrewersController : Controller
             return BadRequest($"Something went wrong when adding the sale of Beer {sale.BeerId} to Wholesaler {sale.WholesalerId}");
         }
 
-        _ = await _wholesalerService.UpdateStockAsync(addedSale);
+        var wholesalerStock = await _wholesalerService.UpdateStockAsync(addedSale);
+        if(wholesalerStock is null)
+        {
+            _logger.LogError($"UpdateStockAsync: the function returned a null object");
+            return BadRequest($"Something went wrong when adding the sale of Beer {sale.BeerId} to Wholesaler {sale.WholesalerId}");
+        }
 
-        return Ok(addedSale);
+        var result = _mapper.Map<ViewSaleDTO>(addedSale);
+        return Ok(result);
     }
 }
 

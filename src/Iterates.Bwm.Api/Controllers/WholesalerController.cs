@@ -34,7 +34,7 @@ public class WholesalerController : Controller
     }
 
     [HttpPut("/{wholesalerId}/stock/{beerId}")]
-    public async Task<ActionResult<bool>> UpdateBeerStock(Guid wholesalerId, Guid beerId, int stock)
+    public async Task<ActionResult<WholesalerStockDTO>> UpdateBeerStock(Guid wholesalerId, Guid beerId, int stock)
     {
         if (!ModelState.IsValid)
         {
@@ -62,24 +62,24 @@ public class WholesalerController : Controller
             return BadRequest($"Could not update stock for wholesaler {wholesalerId} and beer {beerId}");
         }
 
-        return Ok(updatedStock);
+        var result = _mapper.Map<WholesalerStockDTO>(updatedStock);
 
-
+        return Ok(result);
     }
 
-    [HttpPost("/quotes")]
-    public async Task<ActionResult<QuotationResponseDTO>> GetQuote(QuotationRequestDTO quoteRequestDTO)
+    [HttpPost("{wholesalerId}/quotes")]
+    public async Task<ActionResult<QuotationResponseDTO>> GetQuote(Guid wholesalerId, QuotationRequestDTO quoteRequestDTO)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var wholesaler = await _wholesalerService.GetByIdAsync(quoteRequestDTO.WholesalerId);
+        var wholesaler = await _wholesalerService.GetByIdAsync(wholesalerId);
         if(wholesaler is null)
         {
-            _logger.LogError($"GetByIdAsync: returned null, Wholesaler with id {quoteRequestDTO.WholesalerId}");
-            return NotFound($"Wholesaler with id {quoteRequestDTO.WholesalerId} not found");
+            _logger.LogError($"GetByIdAsync: returned null, Wholesaler with id {wholesalerId}");
+            return NotFound($"Wholesaler with id {wholesalerId} not found");
         }
 
         if(quoteRequestDTO.Items == null || quoteRequestDTO.Items.Count == 0)
