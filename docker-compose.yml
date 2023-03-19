@@ -1,0 +1,16 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  iteratesbwmapi:
+    image: iteratesbwmapi
+    container_name: iteratesbwmapi
+    build:
+      context: .
+      dockerfile: src/Iterates.Bwm.Api/Dockerfile
+    ports:
+      - 8089:443
+      - 8090:80
+    environment:
+      - ASPNETCORE_URLS=http://+:80
