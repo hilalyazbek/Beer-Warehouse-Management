@@ -18,17 +18,14 @@ namespace Iterates.Bwm.Api.Controllers;
 public class WholesalerController : Controller
 {
     private readonly IWholesalerService _wholesalerService;
-    private readonly IBrewerService _brewerService;
     private readonly IMapper _mapper;
     private readonly ILoggerManager _logger;
 
     public WholesalerController(IWholesalerService wholesalerService,
-        IBrewerService brewerService,
         IMapper mapper,
         ILoggerManager logger)
     {
         _wholesalerService = wholesalerService;
-        _brewerService = brewerService;
         _mapper = mapper;
         _logger = logger;
     }

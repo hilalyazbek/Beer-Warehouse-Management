@@ -112,7 +112,7 @@ public class BrewersController : Controller
         if(brewer is null)
         {
             _logger.LogError($"Brewer with id {brewerId} does not exist in the database");
-            return NotFound($"Brewer with id {brewerId} wnot found");
+            return NotFound($"Brewer with id {brewerId} not found");
         }
 
         var beerToDelete = await _brewerService.GetBeerAsync(brewerId, id);

@@ -74,12 +74,11 @@ public class WholesalerService : IWholesalerService
 
     public async Task<QuotationResponse?> GetQuoteResponseAsync(QuotationRequest quoteRequest)
     {
-        var result = new QuotationResponse()
+        var result = new QuotationResponse
         {
-            Wholesaler = quoteRequest.Wholesaler
+            Wholesaler = quoteRequest.Wholesaler,
+            Items = await GetQuotation(quoteRequest.WholesalerId, quoteRequest.Items)
         };
-        
-        result.Items = await GetQuotation(quoteRequest.WholesalerId, quoteRequest.Items);
 
         result.Description = $"Quotation generated for {result.Items.Count} items";
 
@@ -134,7 +133,7 @@ public class WholesalerService : IWholesalerService
         return result;
     }
 
-    private decimal CheckDiscount(int quantity)
+    private static decimal CheckDiscount(int quantity)
     {
         if (quantity > 20)
         {
