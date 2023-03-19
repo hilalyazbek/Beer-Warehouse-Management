@@ -37,16 +37,21 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return entity;
     }
 
-    public async Task UpdateAsync(T entity)
+    public async Task<T> UpdateAsync(T entity)
     {
+        _dbContext.Entry(entity).Property("Updated").CurrentValue = DateTime.Now;
         _dbContext.Set<T>().Update(entity);
         await _dbContext.SaveChangesAsync();
+
+        return entity;
     }
 
-    public async Task RemoveAsync(T entity)
+    public async Task<int> RemoveAsync(T entity)
     {
         _dbContext.Set<T>().Remove(entity);
-        await _dbContext.SaveChangesAsync();
+        var rowsAffected = await _dbContext.SaveChangesAsync();
+
+        return rowsAffected;
     }
 }
 

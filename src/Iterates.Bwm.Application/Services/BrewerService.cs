@@ -20,23 +20,30 @@ public class BrewerService : IBrewerService
         _saleRepository = saleRepository;
     }
 
-    public async Task<IEnumerable<Brewer>> GetAllBrewersAsync()
+    public async Task<IEnumerable<Brewer?>> GetAllBrewersAsync()
     {
         return await _brewerRepository.GetAllAsync();
     }
 
-    public async Task<Brewer> GetBrewerAsync(Guid id)
+    public async Task<Brewer?> GetBrewerAsync(Guid id)
     {
         var brewer = await _brewerRepository.GetByIdAsync(id);
 
         return brewer;
     }
 
-    public async Task<Beer> AddBeerAsync(Beer beer)
+    public async Task<Beer?> AddBeerAsync(Beer beer)
     {
         var addedBeer = await _beerRepository.AddAsync(beer);
 
         return addedBeer;
+    }
+
+    public async Task<Beer?> GetBeerAsync(Guid beerId)
+    {
+        var beer = await _beerRepository.GetByIdAsync(beerId);
+
+        return beer;
     }
 
     public async Task<Beer?> GetBeerAsync(Guid bewerId, Guid beerId)
@@ -58,19 +65,17 @@ public class BrewerService : IBrewerService
         return true;
     }
 
-    public async Task<IEnumerable<Beer>> GetBeersByBrewerIdAsync(Guid id)
+    public async Task<IEnumerable<Beer?>> GetBeersByBrewerIdAsync(Guid id)
     {
         var beers = await _beerRepository.FindAsync(itm => itm.BrewerId == id);
 
         return beers;
     }
 
-    public async Task<Sale> AddSaleToWholesalerAsync(Sale sale)
+    public async Task<Sale?> AddSaleToWholesalerAsync(Sale sale)
     {
         var addedSale = await _saleRepository.AddAsync(sale);
 
         return addedSale;
     }
-
-
 }
