@@ -80,21 +80,33 @@ public class WholesalerService : IWholesalerService
             Items = await GetQuotation(quoteRequest.WholesalerId, quoteRequest.Items)
         };
 
+        if(result.Items is null)
+        {
+            return null;
+        }
+
         result.Description = $"Quotation generated for {result.Items.Count} items";
 
         return result;
     }
 
-    private async Task<List<ItemResponse>> GetQuotation(Guid wholesalerId, List<ItemRequest> items)
+    private async Task<List<ItemResponse>?> GetQuotation(Guid wholesalerId, List<ItemRequest> items)
     {
         var result = new List<ItemResponse>();
 
         foreach (var item in items)
         {
-            var currentStock = _wholesalerStockRepository.FindAsync(
+            var query = await _wholesalerStockRepository.FindAsync(
                 itm => itm.BeerId == item.BeerId
                 && itm.WholesalerId == wholesalerId
-                && item.Quantity <= itm.Stock).Result.FirstOrDefault();
+                && item.Quantity <= itm.Stock);
+
+            if (query is null)
+            {
+                return null;
+            }
+
+            var currentStock = query.FirstOrDefault();
 
             if (currentStock is null)
             {
