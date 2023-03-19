@@ -39,6 +39,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public async Task<T> UpdateAsync(T entity)
     {
+        _dbContext.Entry(entity).Property("Updated").CurrentValue = DateTime.Now;
         _dbContext.Set<T>().Update(entity);
         await _dbContext.SaveChangesAsync();
 

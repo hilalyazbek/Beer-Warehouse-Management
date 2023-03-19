@@ -64,7 +64,7 @@ public class WholesalerController : Controller
         return Ok(result);
     }
 
-    [HttpPost("{wholesalerId}/quotes")]
+    [HttpPost("/{wholesalerId}/quotes")]
     public async Task<ActionResult<QuotationResponseDTO>> GetQuote(Guid wholesalerId, QuotationRequestDTO quoteRequestDTO)
     {
         if (!ModelState.IsValid)
