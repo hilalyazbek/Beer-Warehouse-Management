@@ -9,7 +9,6 @@ namespace Iterates.Bwm.Domain.Entities;
 
 public class QuotationRequest : EntityBase
 {
-    public Guid WholesalerId { get; set; }
     public Wholesaler? Wholesaler { get; set; }
     public List<ItemRequest>? Items { get; set; }
 }

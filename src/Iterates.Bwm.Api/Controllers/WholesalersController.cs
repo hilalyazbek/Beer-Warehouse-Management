@@ -15,19 +15,47 @@ namespace Iterates.Bwm.Api.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class WholesalerController : Controller
+public class WholesalersController : Controller
 {
     private readonly IWholesalerService _wholesalerService;
     private readonly IMapper _mapper;
     private readonly ILoggerManager _logger;
 
-    public WholesalerController(IWholesalerService wholesalerService,
+    public WholesalersController(IWholesalerService wholesalerService,
         IMapper mapper,
         ILoggerManager logger)
     {
         _wholesalerService = wholesalerService;
         _mapper = mapper;
         _logger = logger;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<WholesalerDTO>>> GetWholesalers()
+    {
+        var wholesalers = await _wholesalerService.GetWholesalersAsync();
+        if(wholesalers is null)
+        {
+            _logger.LogInfo($"GetWholesalers: returned null");
+            return NotFound($"No wholesalers found");
+        }
+
+        var result = _mapper.Map<IEnumerable<WholesalerDTO>>(wholesalers);
+        return Ok(result);
+    }
+
+    [HttpGet("{wholesalerId}/stock")]
+    public async Task<ActionResult<IEnumerable<WholesalerStockDTO>>> GetStockByWholesalerId(Guid wholesalerId)
+    {
+        var stock = await _wholesalerService.GetStockByWholesalerIdAsync(wholesalerId);
+        if (stock is null)
+        {
+            _logger.LogInfo($"GetStockByWholesalerId: returned null for wholesaler {wholesalerId}");
+            return NotFound($"No stock found for wholesaler {wholesalerId}");
+        }
+
+        var result = _mapper.Map<IEnumerable<WholesalerStockDTO>>(stock);
+        return Ok(result);
     }
 
     /// <summary>
@@ -39,7 +67,7 @@ public class WholesalerController : Controller
     /// <returns>
     /// The updated stock for the beer in the wholesaler's stock.
     /// </returns>
-    [HttpPut("/{wholesalerId}/stock/{beerId}")]
+    [HttpPut("{wholesalerId}/stock/{beerId}")]
     public async Task<ActionResult<WholesalerStockDTO>> UpdateBeerStock(Guid wholesalerId, Guid beerId, int stock)
     {
         if (!ModelState.IsValid)
@@ -83,7 +111,7 @@ public class WholesalerController : Controller
     /// <returns>
     /// A QuotationResponseDTO object
     /// </returns>
-    [HttpPost("/{wholesalerId}/quotes")]
+    [HttpPost("{wholesalerId}/quotes")]
     public async Task<ActionResult<QuotationResponseDTO>> GetQuote(Guid wholesalerId, QuotationRequestDTO quoteRequestDTO)
     {
         if (!ModelState.IsValid)

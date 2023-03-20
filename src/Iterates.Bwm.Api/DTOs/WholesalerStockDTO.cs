@@ -10,9 +10,7 @@ namespace Iterates.Bwm.Domain.Entities;
 public class WholesalerStockDTO
 {
     public Guid WholesalerId { get; set; }
-    public Wholesaler? Wholesaler { get; set; }
     public Guid BeerId { get; set; }
-    public Beer? Beer { get; set; }
     public int Stock { get; set; }
     [Column(TypeName = "decimal(18,2)")]
     public decimal Price { get; set; }

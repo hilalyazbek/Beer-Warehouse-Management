@@ -18,6 +18,11 @@ public class WholesalerService : IWholesalerService
         _wholesalerStockRepository = wholesalerStockRepository;
     }
 
+    public async Task<IEnumerable<Wholesaler?>> GetWholesalersAsync()
+    {
+        return await _wholesalerRepository.GetAllAsync();
+    }
+
     /// <summary>
     /// It gets a wholesaler by id
     /// </summary>
@@ -25,11 +30,26 @@ public class WholesalerService : IWholesalerService
     /// <returns>
     /// A wholesaler object.
     /// </returns>
-    public async Task<Wholesaler> GetByIdAsync(Guid id)
+    public async Task<Wholesaler?> GetByIdAsync(Guid id)
     {
         var wholesaler = await _wholesalerRepository.GetByIdAsync(id);
+        if(wholesaler is null)
+        {
+            return null;
+        }
 
         return wholesaler;
+    }
+
+    public async Task<IEnumerable<WholesalerStock?>> GetStockByWholesalerIdAsync(Guid wholesalerId)
+    {
+        var result = await _wholesalerStockRepository.FindAsync(itm => itm.WholesalerId == wholesalerId);
+        if(result is null)
+        {
+            return null;
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -122,7 +142,7 @@ public class WholesalerService : IWholesalerService
         var result = new QuotationResponse
         {
             Wholesaler = quoteRequest.Wholesaler,
-            Items = await GetQuotation(quoteRequest.WholesalerId, quoteRequest.Items)
+            Items = await GetQuotation(quoteRequest.Wholesaler.Id, quoteRequest.Items)
         };
 
         if(result.Items is null)
@@ -169,30 +189,32 @@ public class WholesalerService : IWholesalerService
                     BeerId = item.BeerId,
                     Description = "Beer not available in stock",
                     Discount = "NA",
-                    Price = 0.0m,
-                    PriceAfterDiscount = 0.0m,
-                    PriceBeforeDiscount = 0.0m,
+                    PricePerItem = 0.0m,
+                    TotalAfterDiscount = 0.0m,
+                    TotalBeforeDiscount = 0.0m,
                     Quantity = 0
                 });
                 continue;
             }
 
             var discount = CheckDiscount(item.Quantity);
-            var priceAfterDiscount = 0.0m;
+            var originalPrice = item.Quantity * currentStock.Price;
+            var priceAfterDiscount = originalPrice;
+            
             if (discount != 0)
             {
-                var originalPrice = item.Quantity * currentStock.Price;
                 priceAfterDiscount = originalPrice - (originalPrice * (discount / 100));
             }
-
+            
             result.Add(new ItemResponse()
             {
                 BeerId = currentStock.BeerId,
                 Quantity = item.Quantity,
-                Description = "Beer is Available",
+                Description = $"Beer is Available",
+                PricePerItem = currentStock.Price,
                 Discount = $"{discount} % applied",
-                PriceBeforeDiscount = item.Quantity * currentStock.Price,
-                PriceAfterDiscount = priceAfterDiscount
+                TotalBeforeDiscount = item.Quantity * currentStock.Price,
+                TotalAfterDiscount = priceAfterDiscount
             });
         }
 

@@ -118,7 +118,7 @@ public class BrewersController : Controller
             return BadRequest("Something went wrong");
         }
 
-        var result = _mapper.Map<BeerDTO>(beer);
+        var result = _mapper.Map<BeerDTO>(addedBeer);
         return Ok(result);
     }
 

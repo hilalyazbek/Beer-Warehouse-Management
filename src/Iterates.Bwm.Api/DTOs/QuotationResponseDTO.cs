@@ -12,10 +12,10 @@ public class QuotationResponseDTO
 public record ItemResponseDTO
 {
     public Guid BeerId { get; set; }
-    public int Quantity { get; set; }
     public string? Description { get; set; }
-    public decimal Price { get; set; }
-    public decimal PriceBeforeDiscount { get; set; }
+    public int Quantity { get; set; }
+    public decimal PricePerItem { get; set; }
+    public decimal TotalBeforeDiscount { get; set; }
     public string? Discount { get; set; }
-    public decimal PriceAfterDiscount { get; set; }
+    public decimal TotalAfterDiscount { get; set; }
 }
