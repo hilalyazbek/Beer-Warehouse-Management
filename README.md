@@ -34,4 +34,48 @@ public interface IBrewerService
 }
 ```
 
-https://iterates.azurewebsites.net/brewers
+### Api Calls
+- Get All Brewers: https://iterates.azurewebsites.net/brewers
+
+- Get All Beers by Brewer Id: https://iterates.azurewebsites.net/brewers/[BrewerId]/beers
+
+- Add a Beer to a Brewer: https://iterates.azurewebsites.net/brewers/[BrewerId]/beers
+    ```
+    {
+    "name": "Beer Name",
+    "alcoholContent": "7,7%",
+    "batchNumber": "BRU#982A"
+    }
+    ```
+
+- Delete a Beer from a Brewer: https://iterates.azurewebsites.net/brewers/[BrewerId]/beers/[BeerId]
+
+- Add a Sale of a Beer to a Wholesaler: 'https://iterates.azurewebsites.net/Brewers/[BrewerId]/sales
+    ```
+    {
+    "wholesalerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "beerId": "[BeerId]",
+    "orderNumber": "ON2341",
+    "stock": 500,
+    "price": 11.1,
+    "delivery": true
+    }
+    ```
+
+- Update Beer Stock by Wholesaler: https://iterates.azurewebsites.net/[WholesalerId]/stock/[BeerId]?stock=32
+
+- Request Quote from Wholesaler: https://iterates.azurewebsites.net/[WholesalerId]/quote
+    ```
+    {
+    "items": [
+        {
+        "beerId": "3fa85f64-5717-4562-BBBB-2c963f66afa6",
+        "quantity": 10
+        },
+        {
+        "beerId": "3fa85f64-5717-4562-AAAA-2c963f66afa6",
+        "quantity": 400
+        },
+    ]
+    }
+    ```
