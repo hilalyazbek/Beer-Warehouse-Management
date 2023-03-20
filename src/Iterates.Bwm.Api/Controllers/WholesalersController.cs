@@ -30,6 +30,12 @@ public class WholesalersController : Controller
         _logger = logger;
     }
 
+   /// <summary>
+   /// It gets all the wholesalers from the database and returns them as a list of WholesalerDTO objects
+   /// </summary>
+   /// <returns>
+   /// A list of wholesalers
+   /// </returns>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<WholesalerDTO>>> GetWholesalers()
     {
@@ -44,6 +50,13 @@ public class WholesalersController : Controller
         return Ok(result);
     }
 
+    /// <summary>
+    /// > GetStockByWholesalerId: returns a list of WholesalerStockDTO objects for a given wholesalerId
+    /// </summary>
+    /// <param name="Guid">a unique identifier</param>
+    /// <returns>
+    /// A list of WholesalerStockDTO objects
+    /// </returns>
     [HttpGet("{wholesalerId}/stock")]
     public async Task<ActionResult<IEnumerable<WholesalerStockDTO>>> GetStockByWholesalerId(Guid wholesalerId)
     {

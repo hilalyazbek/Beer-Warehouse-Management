@@ -18,6 +18,12 @@ public class WholesalerService : IWholesalerService
         _wholesalerStockRepository = wholesalerStockRepository;
     }
 
+   /// <summary>
+   /// > Get all wholesalers from the database
+   /// </summary>
+   /// <returns>
+   /// A list of wholesalers.
+   /// </returns>
     public async Task<IEnumerable<Wholesaler?>> GetWholesalersAsync()
     {
         return await _wholesalerRepository.GetAllAsync();
@@ -41,6 +47,13 @@ public class WholesalerService : IWholesalerService
         return wholesaler;
     }
 
+    /// <summary>
+    /// > This function returns a list of wholesaler stock items for a given wholesaler id
+    /// </summary>
+    /// <param name="Guid">A unique identifier for the wholesaler.</param>
+    /// <returns>
+    /// IEnumerable<WholesalerStock?>
+    /// </returns>
     public async Task<IEnumerable<WholesalerStock?>> GetStockByWholesalerIdAsync(Guid wholesalerId)
     {
         var result = await _wholesalerStockRepository.FindAsync(itm => itm.WholesalerId == wholesalerId);
