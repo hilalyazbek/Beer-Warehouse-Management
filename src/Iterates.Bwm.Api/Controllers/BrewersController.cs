@@ -33,6 +33,12 @@ public class BrewersController : Controller
         _logger = logger;
     }
 
+    /// <summary>
+    /// This function returns a list of all the brewers in the database
+    /// </summary>
+    /// <returns>
+    /// A list of BrewerDTO objects
+    /// </returns>
     [HttpGet()]
     public async Task<ActionResult<IEnumerable<BrewerDTO>>> GetBrewers()
     {
@@ -52,6 +58,14 @@ public class BrewersController : Controller
         return Ok(result);
     }
 
+    /// <summary>
+    /// It returns a list of beers for a given brewer
+    /// </summary>
+    /// <param name="Guid">A globally unique identifier (GUID) is a 128-bit number used to identify
+    /// information in computer systems.</param>
+    /// <returns>
+    /// A list of beers for a given brewer.
+    /// </returns>
     [HttpGet("{brewerId}/beers/")]
     public async Task<ActionResult<IEnumerable<BeerDTO>>> GetBeersByBrewerId(Guid brewerId)
     {
@@ -71,6 +85,14 @@ public class BrewersController : Controller
         return Ok(result);
     }
 
+    /// <summary>
+    /// It takes a brewerId and a beer object, and adds the beer to the brewer
+    /// </summary>
+    /// <param name="Guid">brewerId</param>
+    /// <param name="AddBeerDTO"></param>
+    /// <returns>
+    /// A beerDTO object
+    /// </returns>
     [HttpPost("{brewerId}/beers/")]
     public async Task<ActionResult<BeerDTO>> AddBeer(Guid brewerId, AddBeerDTO beer)
     {
@@ -100,6 +122,14 @@ public class BrewersController : Controller
         return Ok(result);
     }
 
+    /// <summary>
+    /// It deletes a beer from a brewer's list of beers
+    /// </summary>
+    /// <param name="Guid">brewerId</param>
+    /// <param name="Guid">brewerId</param>
+    /// <returns>
+    /// The result of the DeleteBeerAsync method.
+    /// </returns>
     [HttpDelete("{brewerId}/beers/{id}")]
     public async Task<IActionResult> DeleteBeer(Guid brewerId, Guid id)
     {
@@ -134,6 +164,14 @@ public class BrewersController : Controller
         }
     }
 
+    /// <summary>
+    /// It adds a sale to a wholesaler, updates the wholesaler's stock, and returns the sale
+    /// </summary>
+    /// <param name="Guid">brewerId</param>
+    /// <param name="AddSaleDTO"></param>
+    /// <returns>
+    /// A ViewSaleDTO object
+    /// </returns>
     [HttpPost("{brewerId}/sales/")]
     public async Task<ActionResult<ViewSaleDTO>> AddSaleToWholesaler(Guid brewerId, AddSaleDTO sale)
     {

@@ -18,6 +18,13 @@ public class WholesalerService : IWholesalerService
         _wholesalerStockRepository = wholesalerStockRepository;
     }
 
+    /// <summary>
+    /// It gets a wholesaler by id
+    /// </summary>
+    /// <param name="Guid">The unique identifier for the wholesaler</param>
+    /// <returns>
+    /// A wholesaler object.
+    /// </returns>
     public async Task<Wholesaler> GetByIdAsync(Guid id)
     {
         var wholesaler = await _wholesalerRepository.GetByIdAsync(id);
@@ -25,6 +32,15 @@ public class WholesalerService : IWholesalerService
         return wholesaler;
     }
 
+    /// <summary>
+    /// Get the first item from the list of wholesaler stock items that match the wholesaler id and beer
+    /// id.
+    /// </summary>
+    /// <param name="Guid"></param>
+    /// <param name="Guid"></param>
+    /// <returns>
+    /// A list of WholesalerStock objects.
+    /// </returns>
     public async Task<WholesalerStock?> GetStockByBeerIdAsync(Guid wholesalerId, Guid id)
     {
         var beerStock = await _wholesalerStockRepository.FindAsync(
@@ -33,6 +49,13 @@ public class WholesalerService : IWholesalerService
         return beerStock.FirstOrDefault();
     }
 
+    /// <summary>
+    /// If the stock exists, update it, otherwise add it
+    /// </summary>
+    /// <param name="Sale"></param>
+    /// <returns>
+    /// The method returns a Task<WholesalerStock?>
+    /// </returns>
     public async Task<WholesalerStock?> UpdateStockAsync(Sale sale)
     {
         var beerId = sale.BeerId;
@@ -62,9 +85,23 @@ public class WholesalerService : IWholesalerService
         return null;
     }
 
+    /// <summary>
+    /// > Update the stock of a beer for a wholesaler
+    /// </summary>
+    /// <param name="Guid">The unique identifier for the wholesaler</param>
+    /// <param name="Guid">The unique identifier for the wholesaler</param>
+    /// <param name="quantity">The amount of stock to add to the existing stock</param>
+    /// <returns>
+    /// The updated stock
+    /// </returns>
     public async Task<WholesalerStock?> UpdateStockAsync(Guid wholesalerId, Guid beerId, int quantity)
     {
         var existingStock = await GetStockByBeerIdAsync(wholesalerId, beerId);
+        if(existingStock is null)
+        {
+            return null;
+        }
+
         existingStock.Stock += quantity;
 
         var updatedStock = await _wholesalerStockRepository.UpdateAsync(existingStock);
@@ -72,6 +109,14 @@ public class WholesalerService : IWholesalerService
         return updatedStock;
     }
 
+    /// <summary>
+    /// It takes a quotation request, gets the quotation from the wholesaler, and returns a quotation
+    /// response
+    /// </summary>
+    /// <param name="QuotationRequest"></param>
+    /// <returns>
+    /// A QuotationResponse object
+    /// </returns>
     public async Task<QuotationResponse?> GetQuoteResponseAsync(QuotationRequest quoteRequest)
     {
         var result = new QuotationResponse
@@ -90,6 +135,15 @@ public class WholesalerService : IWholesalerService
         return result;
     }
 
+    /// <summary>
+    /// It takes a list of items and a wholesaler id, and returns a list of items with the price and
+    /// discount applied
+    /// </summary>
+    /// <param name="Guid">wholesalerId</param>
+    /// <param name="items">List of items that the customer wants to buy</param>
+    /// <returns>
+    /// A list of ItemResponse objects.
+    /// </returns>
     private async Task<List<ItemResponse>?> GetQuotation(Guid wholesalerId, List<ItemRequest> items)
     {
         var result = new List<ItemResponse>();
@@ -145,6 +199,14 @@ public class WholesalerService : IWholesalerService
         return result;
     }
 
+    /// <summary>
+    /// If the quantity is greater than 20, return 20. If the quantity is greater than 10, return 10.
+    /// Otherwise, return 0
+    /// </summary>
+    /// <param name="quantity">The number of items purchased.</param>
+    /// <returns>
+    /// The discount percentage.
+    /// </returns>
     private static decimal CheckDiscount(int quantity)
     {
         if (quantity > 20)

@@ -30,6 +30,15 @@ public class WholesalerController : Controller
         _logger = logger;
     }
 
+    /// <summary>
+    /// It updates the stock of a beer in a wholesaler's stock
+    /// </summary>
+    /// <param name="Guid">wholesalerId</param>
+    /// <param name="Guid">wholesalerId</param>
+    /// <param name="stock">the new stock value</param>
+    /// <returns>
+    /// The updated stock for the beer in the wholesaler's stock.
+    /// </returns>
     [HttpPut("/{wholesalerId}/stock/{beerId}")]
     public async Task<ActionResult<WholesalerStockDTO>> UpdateBeerStock(Guid wholesalerId, Guid beerId, int stock)
     {
@@ -64,6 +73,16 @@ public class WholesalerController : Controller
         return Ok(result);
     }
 
+    /// <summary>
+    /// It takes a wholesalerId and a QuotationRequestDTO object, validates the QuotationRequestDTO
+    /// object, maps it to a QuotationRequest object, calls the GetQuoteResponseAsync function on the
+    /// wholesalerService, maps the result to a QuotationResponseDTO object and returns it
+    /// </summary>
+    /// <param name="Guid">wholesalerId</param>
+    /// <param name="QuotationRequestDTO"></param>
+    /// <returns>
+    /// A QuotationResponseDTO object
+    /// </returns>
     [HttpPost("/{wholesalerId}/quotes")]
     public async Task<ActionResult<QuotationResponseDTO>> GetQuote(Guid wholesalerId, QuotationRequestDTO quoteRequestDTO)
     {
