@@ -42,10 +42,5 @@ public static class ConfigureServices
 
         services.AddSingleton<ILoggerManager, LoggerManager>();
         services.AddWatchDogServices();
-        //services.AddWatchDogServices(); settings =>
-        //{
-        //    settings.DbDriverOption = WatchDogDbDriverEnum.MSSQL;
-        //    settings.SetExternalDbConnString = conn;
-        //});
     }
 }
