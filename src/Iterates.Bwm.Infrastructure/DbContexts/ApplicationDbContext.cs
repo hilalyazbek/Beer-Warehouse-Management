@@ -28,7 +28,6 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //optionsBuilder.UseSqlServer("Server=sql-qa-stg-001.database.windows.net;Database=BWM;User Id=sqladmin;Password=P@ssw0rd;Trust Server Certificate=true ");
         optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=BWM;User Id=sqladmin;Password=P@ssw0rd;Trust Server Certificate=true ");
     }
 
