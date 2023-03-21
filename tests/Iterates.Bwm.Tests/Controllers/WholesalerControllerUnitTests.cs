@@ -60,11 +60,13 @@ public class WholesalerControllerUnitTests
 
         // Act
         var result = await _controller.UpdateBeerStock(wholesalerId, beerId, stock);
+
+        // Assert
         Assert.Multiple(() =>
         {
-            // Assert
             Assert.That(result, Is.InstanceOf(typeof(ActionResult<WholesalerStockDTO>)));
-            //Assert.That((WholesalerStockDTO)(result.Result as ObjectResult).Value, Is.EqualTo(updatedWholesalerStockDTO));
+            var okResult = (ObjectResult)result.Result;
+            Assert.That((WholesalerStockDTO)okResult.Value, Is.EqualTo(updatedWholesalerStockDTO));
         });
     }
 
@@ -73,27 +75,30 @@ public class WholesalerControllerUnitTests
     {
         // Arrange
         var wholesalerId = Guid.NewGuid();
+        var wholesaler = new Wholesaler { Id = wholesalerId };
+        var quoteRequest = new QuotationRequest
+        {
+            Wholesaler = wholesaler
+        };
+
         var quoteRequestDTO = new QuotationRequestDTO
         {
-            Items = new List<ItemRequestDTO>
+            Items = new ()
             {
-                new ItemRequestDTO
+                new ()
                 {
                     BeerId = Guid.NewGuid(),
                     Quantity = 10
                 }
             }
         };
-        var wholesaler = new Wholesaler { Id = wholesalerId };
-        var quoteRequest = new QuotationRequest();
+
+        var quoteResponse = new QuotationResponse();
+        var quoteResponseDTO = new QuotationResponseDTO();
 
         _mockMapper
             .Setup(x => x.Map<QuotationRequest>(quoteRequestDTO))
             .Returns(quoteRequest);
-
-        quoteRequest.Wholesaler = wholesaler;
-        var quoteResponse = new QuotationResponse();
-        var quoteResponseDTO = new QuotationResponseDTO();
 
         _mockMapper
             .Setup(x => x.Map<QuotationResponseDTO>(quoteResponse))
@@ -102,6 +107,7 @@ public class WholesalerControllerUnitTests
         _mockWholesalerService
             .Setup(x => x.GetByIdAsync(wholesalerId))
             .ReturnsAsync(wholesaler);
+
         _mockWholesalerService
             .Setup(x => x.GetQuoteResponseAsync(quoteRequest))
             .ReturnsAsync(quoteResponse);
