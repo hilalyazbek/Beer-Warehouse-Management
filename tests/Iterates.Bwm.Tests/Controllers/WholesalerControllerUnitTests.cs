@@ -17,7 +17,7 @@ public class WholesalerControllerUnitTests
     private Mock<IMapper> _mockMapper;
     private Mock<ILoggerManager> _mockLogger;
 
-    private WholesalerController _controller;
+    private WholesalersController _controller;
 
     [SetUp]
     public void Setup()
@@ -25,7 +25,7 @@ public class WholesalerControllerUnitTests
         _mockWholesalerService = new Mock<IWholesalerService>();
         _mockMapper = new Mock<IMapper>();
         _mockLogger = new Mock<ILoggerManager>();
-        _controller = new WholesalerController(
+        _controller = new WholesalersController(
             _mockWholesalerService.Object,
             _mockMapper.Object,
             _mockLogger.Object);
@@ -41,10 +41,22 @@ public class WholesalerControllerUnitTests
         var wholesalerStock = new WholesalerStock { WholesalerId = wholesalerId, BeerId = beerId, Stock = stock };
         var updatedWholesalerStock = new WholesalerStock { WholesalerId = wholesalerId, BeerId = beerId, Stock = stock + 5 };
         var updatedWholesalerStockDTO = new WholesalerStockDTO { WholesalerId = wholesalerId, BeerId = beerId, Stock = stock + 5 };
-        _mockWholesalerService.Setup(x => x.GetByIdAsync(wholesalerId)).ReturnsAsync(new Wholesaler());
-        _mockWholesalerService.Setup(x => x.GetStockByBeerIdAsync(wholesalerId, beerId)).ReturnsAsync(wholesalerStock);
-        _mockWholesalerService.Setup(x => x.UpdateStockAsync(wholesalerId, beerId, stock)).ReturnsAsync(updatedWholesalerStock);
-        _mockMapper.Setup(x => x.Map<WholesalerStockDTO>(updatedWholesalerStock)).Returns(updatedWholesalerStockDTO);
+
+        _mockWholesalerService
+            .Setup(x => x.GetByIdAsync(wholesalerId))
+            .ReturnsAsync(new Wholesaler());
+
+        _mockWholesalerService
+            .Setup(x => x.GetStockByBeerIdAsync(wholesalerId, beerId))
+            .ReturnsAsync(wholesalerStock);
+
+        _mockWholesalerService
+            .Setup(x => x.UpdateStockAsync(wholesalerId, beerId, stock))
+            .ReturnsAsync(updatedWholesalerStock);
+
+        _mockMapper
+            .Setup(x => x.Map<WholesalerStockDTO>(updatedWholesalerStock))
+            .Returns(updatedWholesalerStockDTO);
 
         // Act
         var result = await _controller.UpdateBeerStock(wholesalerId, beerId, stock);
@@ -74,14 +86,25 @@ public class WholesalerControllerUnitTests
         };
         var wholesaler = new Wholesaler { Id = wholesalerId };
         var quoteRequest = new QuotationRequest();
-        _mockMapper.Setup(x => x.Map<QuotationRequest>(quoteRequestDTO)).Returns(quoteRequest);
+
+        _mockMapper
+            .Setup(x => x.Map<QuotationRequest>(quoteRequestDTO))
+            .Returns(quoteRequest);
+
         quoteRequest.Wholesaler = wholesaler;
         var quoteResponse = new QuotationResponse();
         var quoteResponseDTO = new QuotationResponseDTO();
-        _mockMapper.Setup(x => x.Map<QuotationResponseDTO>(quoteResponse)).Returns(quoteResponseDTO);
 
-        _mockWholesalerService.Setup(x => x.GetByIdAsync(wholesalerId)).ReturnsAsync(wholesaler);
-        _mockWholesalerService.Setup(x => x.GetQuoteResponseAsync(quoteRequest)).ReturnsAsync(quoteResponse);
+        _mockMapper
+            .Setup(x => x.Map<QuotationResponseDTO>(quoteResponse))
+            .Returns(quoteResponseDTO);
+
+        _mockWholesalerService
+            .Setup(x => x.GetByIdAsync(wholesalerId))
+            .ReturnsAsync(wholesaler);
+        _mockWholesalerService
+            .Setup(x => x.GetQuoteResponseAsync(quoteRequest))
+            .ReturnsAsync(quoteResponse);
 
         // Act
         var result = await _controller.GetQuote(wholesalerId, quoteRequestDTO);

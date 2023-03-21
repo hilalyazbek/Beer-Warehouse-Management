@@ -76,9 +76,15 @@ public class BrewersControllerUnitTests
             new Brewer { Id = Guid.NewGuid(), Name = "Brewer 2" },
             new Brewer { Id = Guid.NewGuid(), Name = "Brewer 3" },
         };
-        _mockBrewerService.Setup(s => s.GetAllBrewersAsync()).ReturnsAsync(brewers);
+        _mockBrewerService
+            .Setup(s => s.GetAllBrewersAsync())
+            .ReturnsAsync(brewers);
+
         var brewerDTOs = brewers.Select(b => new BrewerDTO { Id = b.Id, Name = b.Name });
-        _mockMapper.Setup(m => m.Map<IEnumerable<BrewerDTO>>(brewers)).Returns(brewerDTOs);
+
+        _mockMapper
+            .Setup(m => m.Map<IEnumerable<BrewerDTO>>(brewers))
+            .Returns(brewerDTOs);
 
         // Act
         var result = await _controller.GetBrewers();
@@ -97,9 +103,18 @@ public class BrewersControllerUnitTests
         var beerId = Guid.NewGuid();
         var brewer = new Brewer { Id = brewerId, Name = "TestBrewer" };
         var beerToDelete = new Beer { Id = beerId };
-        _mockBrewerService.Setup(x => x.GetBrewerAsync(brewerId)).ReturnsAsync(brewer);
-        _mockBrewerService.Setup(x => x.GetBeerAsync(brewerId, beerId)).ReturnsAsync(beerToDelete);
-        _mockBrewerService.Setup(x => x.DeleteBeerAsync(beerToDelete)).ReturnsAsync(true);
+
+        _mockBrewerService
+            .Setup(x => x.GetBrewerAsync(brewerId))
+            .ReturnsAsync(brewer);
+
+        _mockBrewerService
+            .Setup(x => x.GetBeerAsync(brewerId, beerId))
+            .ReturnsAsync(beerToDelete);
+
+        _mockBrewerService
+            .Setup(x => x.DeleteBeerAsync(beerToDelete))
+            .ReturnsAsync(true);
 
         // Act
         var result = await _controller.DeleteBeer(brewerId, beerId);
@@ -116,7 +131,10 @@ public class BrewersControllerUnitTests
         // Arrange
         var brewerId = Guid.NewGuid();
         var beerId = Guid.NewGuid();
-        _mockBrewerService.Setup(x => x.GetBrewerAsync(brewerId)).ReturnsAsync((Brewer)null);
+
+        _mockBrewerService
+            .Setup(x => x.GetBrewerAsync(brewerId))
+            .ReturnsAsync((Brewer)null);
 
         // Act
         var result = await _controller.DeleteBeer(brewerId, beerId);
@@ -134,8 +152,14 @@ public class BrewersControllerUnitTests
         var brewerId = Guid.NewGuid();
         var beerId = Guid.NewGuid();
         var brewer = new Brewer { Id = brewerId, Name = "TestBrewer" };
-        _mockBrewerService.Setup(x => x.GetBrewerAsync(brewerId)).ReturnsAsync(brewer);
-        _mockBrewerService.Setup(x => x.GetBeerAsync(brewerId, beerId)).ReturnsAsync((Beer)null);
+
+        _mockBrewerService
+            .Setup(x => x.GetBrewerAsync(brewerId))
+            .ReturnsAsync(brewer);
+
+        _mockBrewerService
+            .Setup(x => x.GetBeerAsync(brewerId, beerId))
+            .ReturnsAsync((Beer)null);
 
         // Act
         var result = await _controller.DeleteBeer(brewerId, beerId);
